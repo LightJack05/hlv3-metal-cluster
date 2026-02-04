@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-vip
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1000"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://kube-vip.github.io/helm-charts
+    chart: kube-vip
+    targetRevision: 0.9.5
+    helm:
+      valuesObject:
+        env:
+          config:
+            controlplane: "false"
+            services: "true"
+            interface: eth0
+            mode: arp
+      releaseName: kube-vip
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
