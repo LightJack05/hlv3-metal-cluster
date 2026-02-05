@@ -7,10 +7,10 @@ metadata:
 spec:
   gatewayClassName: eg
   listeners:
-    - name: https
+    - name: http
       hostname: argocd.lightjack.lan
-      port: 443
-      protocol: HTTPS
+      port: 80
+      protocol: HTTP
       allowedRoutes:
         kinds:
           - kind: HTTPRoute
@@ -19,9 +19,3 @@ spec:
           selector:
             matchLabels:
               kubernetes.io/metadata.name: argocd
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: argocd-gateway-cert
-            kind: Secret
-            group: core
