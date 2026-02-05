@@ -8,6 +8,7 @@ spec:
   gatewayClassName: eg
   listeners:
     - name: https
+      hostname: argocd.lightjack.lan
       port: 443
       protocol: HTTPS
       allowedRoutes:
