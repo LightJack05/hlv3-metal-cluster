@@ -1,0 +1,49 @@
+apiVersion: gateway.kgateway.dev/v1alpha1
+kind: GatewayParameters
+metadata:
+  name: node-bound-params
+  namespace: kgateway-system
+spec:
+  kube:
+    deployment:
+      replicas: null # Required to let DaemonSet logic take over
+      strategy:
+        type: Recreate
+    pod:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+    service:
+      type: ClusterIP
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: kgateway-node
+spec:
+  controllerName: kgateway.dev/kgateway-controller
+  parametersRef:
+    group: gateway.kgateway.dev
+    kind: GatewayParameters
+    name: node-bound-params
+    namespace: kgateway-system
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+  namespace: kgateway-system
+spec:
+  gatewayClassName: kgateway-node
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.lightjack.lan"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lightjack-lan-tls
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.lightjack.lan"

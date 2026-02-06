@@ -1,0 +1,52 @@
+apiVersion: gateway.kgateway.dev/v1alpha1
+kind: GatewayParameters
+metadata:
+  name: kubevip-gateway-params
+  namespace: kgateway-system
+spec:
+  kube:
+    service:
+      annotations:
+        kube-vip.io/loadbalancerIPs: "10.3.0.2"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: kgateway-kubevip
+spec:
+  controllerName: kgateway.dev/kgateway
+  parametersRef:
+    group: gateway.kgateway.dev
+    kind: GatewayParameters
+    name: kubevip-gateway-params
+    namespace: kgateway-system
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: kgateway-system
+spec:
+  gatewayClassName: kgateway-kubevip
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.lightjack.de"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.lightjack.de"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lightjack-de-tls # Ensure this secret exists in the same namespace
+  addresses:
+    - type: IPAddress
+      value: 10.3.0.2
