@@ -1,23 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: envoy-gateway
+  name: kgateway
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1000"
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    chart: gateway-helm
-    repoURL: docker.io/envoyproxy
-    targetRevision: v1.6.3
-    helm:
-      releaseName: envoy-gateway
   destination:
     server: https://kubernetes.default.svc
-    namespace: envoy-gateway-system
+    namespace: kgateway-system
+  source:
+    chart: kgateway
+    helm:
+      skipCrds: false
+      parameters:
+        - name: controller.image.pullPolicy
+          value: "Always"
+    repoURL: cr.kgateway.dev/kgateway-dev/charts
+    targetRevision: v2.1.2
   syncPolicy:
     automated:
       prune: true
