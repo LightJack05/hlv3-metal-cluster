@@ -4,4 +4,4 @@ metadata:
   name: kubevip
   namespace: kube-system
 data:
-  cidr-default: 10.3.0.2-10.3.255.254
+  range-global: 10.3.0.2-10.3.255.254
