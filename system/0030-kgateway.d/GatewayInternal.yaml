@@ -1,30 +1,24 @@
 apiVersion: gateway.kgateway.dev/v1alpha1
 kind: GatewayParameters
 metadata:
-  name: node-bound-params
+  name: internal-gateway-params
   namespace: kgateway-system
 spec:
   kube:
-    deployment:
-      replicas: null # Required to let DaemonSet logic take over
-      strategy:
-        type: Recreate
-    pod:
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
     service:
-      type: ClusterIP
+      annotations:
+        kube-vip.io/loadbalancerIPs: "10.3.0.2"
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
-  name: kgateway-node
+  name: kgateway-internal
 spec:
-  controllerName: kgateway.dev/kgateway-controller
+  controllerName: kgateway.dev/kgateway
   parametersRef:
     group: gateway.kgateway.dev
     kind: GatewayParameters
-    name: node-bound-params
+    name: internal-gateway-params
     namespace: kgateway-system
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -33,17 +27,26 @@ metadata:
   name: internal
   namespace: kgateway-system
 spec:
-  gatewayClassName: kgateway-node
+  gatewayClassName: kgateway-internal
   listeners:
-    #    - name: https
-    #      protocol: HTTPS
-    #      port: 443
-    #      hostname: "*.lightjack.lan"
-    #      tls:
-    #        mode: Terminate
-    #        certificateRefs:
-    #          - name: lightjack-lan-tls
     - name: http
       protocol: HTTP
       port: 80
       hostname: "*.lightjack.lan"
+      allowedRoutes:
+        namespaces:
+          from: All
+  #    - name: https
+  #      protocol: HTTPS
+  #      port: 443
+  #      hostname: "*.lightjack.de"
+  #      allowedRoutes:
+  #        namespaces:
+  #          from: All
+  #      tls:
+  #        mode: Terminate
+  #        certificateRefs:
+  #          - name: lightjack-de-tls # Ensure this secret exists in the same namespace
+  addresses:
+    - type: IPAddress
+      value: 10.3.0.2
