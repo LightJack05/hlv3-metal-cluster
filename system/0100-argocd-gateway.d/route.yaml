@@ -8,6 +8,8 @@ spec:
   - kind: Gateway
     name: internal
     namespace: kgateway-system
+  hostnames:
+  - "argocd.lightjack.lan"
   rules:
   - backendRefs:
     - name: argocd-server
