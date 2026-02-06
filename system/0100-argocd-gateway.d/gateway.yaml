@@ -5,7 +5,7 @@ metadata:
   name: argocd-gateway
   namespace: argocd
 spec:
-  gatewayClassName: eg
+  gatewayClassName: kgateway
   listeners:
     - name: http
       hostname: argocd.lightjack.lan
