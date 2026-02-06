@@ -32,7 +32,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: rook-ceph-cluster
+    namespace: rook-ceph
   syncPolicy:
     automated:
       prune: true
