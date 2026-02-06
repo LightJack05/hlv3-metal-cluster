@@ -35,14 +35,14 @@ metadata:
 spec:
   gatewayClassName: kgateway-node
   listeners:
-    - name: https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.lightjack.lan"
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: lightjack-lan-tls
+    #    - name: https
+    #      protocol: HTTPS
+    #      port: 443
+    #      hostname: "*.lightjack.lan"
+    #      tls:
+    #        mode: Terminate
+    #        certificateRefs:
+    #          - name: lightjack-lan-tls
     - name: http
       protocol: HTTP
       port: 80

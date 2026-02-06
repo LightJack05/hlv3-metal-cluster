@@ -36,17 +36,17 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.lightjack.de"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: lightjack-de-tls # Ensure this secret exists in the same namespace
+#    - name: https
+#      protocol: HTTPS
+#      port: 443
+#      hostname: "*.lightjack.de"
+#      allowedRoutes:
+#        namespaces:
+#          from: All
+#      tls:
+#        mode: Terminate
+#        certificateRefs:
+#          - name: lightjack-de-tls # Ensure this secret exists in the same namespace
   addresses:
     - type: IPAddress
       value: 10.3.0.2
