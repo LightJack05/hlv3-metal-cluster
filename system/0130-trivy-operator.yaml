@@ -13,6 +13,19 @@ spec:
     targetRevision: 0.30.0
     helm:
       releaseName: trivy-operator
+      valuesObject:
+        operator:
+          replicas: 3
+          metricsFindingsEnabled: true
+          metricsVulnIdEnabled: true
+          metricsExposedSecretInfo: true
+          metricsConfigAuditInfo: true
+          metricsRbacAssessmentInfo: true
+          metricsInfraAssessmentInfo: true
+          metricsImageInfo: true
+          metricsClusterComplianceInfo: true
+        serviceMonitor:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: trivy-system
