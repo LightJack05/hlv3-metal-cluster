@@ -46,18 +46,20 @@ spec:
           existingSecret: grafana-admin-secret
           userKey: admin-user
           passwordKey: admin-password
-        ingress:
-          enabled: true
-          annotations: 
-            cert-manager.io/cluster-issuer: lightjack-kubernetes-ca
-          path: /
-          pathType: Prefix
-          hosts:
-            - grafana.kubernetes.lightjack.lan
-          tls:
-          - hosts:
-            - grafana.kubernetes.lightjack.lan
-            secretName: grafana-ingress-tls
+        route:
+          main:
+            enabled: false
+            apiVersion: gateway.networking.k8s.io/v1
+            kind: HTTPRoute
+            hostnames: 
+            - grafana.lightjack.lan
+            parentRefs:
+              - name: internal
+                namespace: kgateway-system
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
         persistence:
           type: pvc
           enabled: true
