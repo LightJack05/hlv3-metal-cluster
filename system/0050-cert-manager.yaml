@@ -15,7 +15,7 @@ spec:
       recurse: true
   - repoURL: https://charts.jetstack.io
     chart: cert-manager
-    targetRevision: v1.14.1 # Specify the version you want
+    targetRevision: v1.15.0 
     helm:
       releaseName: cert-manager
       values: |
