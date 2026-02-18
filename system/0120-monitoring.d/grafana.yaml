@@ -61,11 +61,10 @@ spec:
         persistence:
           type: pvc
           enabled: true
+          storageClassName: ceph-filesystem
           accessModes:
             - ReadWriteMany
           size: 10Gi
-          finalizers:
-            - kubernetes.io/pvc-protection
           disableWarning: false
         
           ## If persistence is not enabled, this allows to mount the
