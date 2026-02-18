@@ -1,0 +1,95 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+  - repoURL: https://gitea.lightjack.de/Kubernetes/BM-Grafana-Config.git
+    targetRevision: main
+    path: manifests/
+    directory:
+      recurse: true
+  - repoURL: https://grafana.github.io/helm-charts
+    chart: grafana
+    targetRevision: 10.0.0
+    helm:
+      releaseName: grafana
+      valuesObject:
+        envFromSecret: loki-credentials
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+            - name: Prometheus
+              type: prometheus
+              url: http://prometheus-operated.prometheus-system.svc.cluster.local:9090
+              access: proxy
+              isDefault: true
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki-gateway.loki-system.svc.cluster.local:80
+              basicAuth: true
+              basicAuthUser: ${LOKI_USER}
+              secureJsonData:
+                basicAuthPassword: ${LOKI_PASSWORD}
+              jsonData:
+                timeout: 60
+                maxLines: 1000
+
+
+        admin:
+          existingSecret: grafana-admin-secret
+          userKey: admin-user
+          passwordKey: admin-password
+        ingress:
+          enabled: true
+          annotations: 
+            cert-manager.io/cluster-issuer: lightjack-kubernetes-ca
+          path: /
+          pathType: Prefix
+          hosts:
+            - grafana.kubernetes.lightjack.lan
+          tls:
+          - hosts:
+            - grafana.kubernetes.lightjack.lan
+            secretName: grafana-ingress-tls
+        persistence:
+          type: pvc
+          enabled: true
+          accessModes:
+            - ReadWriteMany
+          size: 10Gi
+          finalizers:
+            - kubernetes.io/pvc-protection
+          disableWarning: false
+        
+          ## If persistence is not enabled, this allows to mount the
+          ## local storage in-memory to improve performance
+          ##
+          inMemory:
+            enabled: false
+            ## The maximum usage on memory medium EmptyDir would be
+            ## the minimum value between the SizeLimit specified
+            ## here and the sum of memory limits of all containers in a pod
+            ##
+            # sizeLimit: 300Mi
+        
+          ## If 'lookupVolumeName' is set to true, Helm will attempt to retrieve
+          ## the current value of 'spec.volumeName' and incorporate it into the template.
+          lookupVolumeName: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true

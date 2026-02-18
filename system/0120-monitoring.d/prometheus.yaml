@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-operator
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 78.1.0   # Check latest version on ArtifactHub
+    helm:
+      releaseName: prometheus
+      values: |
+        grafana:
+          enabled: false
+
+        prometheus:
+          enabled: true
+          prometheusSpec:
+            retention: 30d
+            scrapeInterval: 30s
+            evaluationInterval: 30s
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
+            resources:
+              requests:
+                memory: 512Mi
+                cpu: 200m
+              limits:
+                memory: 2Gi
+                cpu: 1
+
+        alertmanager:
+          enabled: true
+          alertmanagerSpec:
+            replicas: 1
+            retention: 120h
+            resources:
+              requests:
+                memory: 256Mi
+                cpu: 100m
+
+        kubeStateMetrics:
+          enabled: true
+
+        nodeExporter:
+          enabled: true
+
+        kubeApiServer:
+          enabled: true
+        kubeControllerManager:
+          enabled: true
+        kubeScheduler:
+          enabled: true
+        kubeProxy:
+          enabled: true
+        coreDns:
+          enabled: true
+        kubeEtcd:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prometheus-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
