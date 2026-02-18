@@ -27,7 +27,7 @@ metadata:
   name: internal
   namespace: kgateway-system
   annotations:
-    cert-manager.io/issuer: lightjack-kubernetes-ca
+    cert-manager.io/cluster-issuer: lightjack-kubernetes-ca
 spec:
   gatewayClassName: kgateway-internal
   listeners:
