@@ -22,6 +22,8 @@ spec:
               enabled: true
           storage:
             deviceFilter: '^sda$'
+          dashboard:
+            enable: true
         route:
           dashboard:
             parentRefs:
