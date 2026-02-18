@@ -24,7 +24,7 @@ spec:
             enabled: true
             existingSecret: loki-htpasswd-secret
         global:
-          dnsService: rke2-coredns-rke2-coredns
+          dnsService: kube-dns
         lokiCanary:
           extraArgs:
             - -pass=$(LOKI_PASSWORD)
