@@ -19,6 +19,7 @@ spec:
     helm:
       releaseName: grafana
       valuesObject:
+        replicas: 3
         envFromSecret: loki-credentials
         datasources:
           datasources.yaml:
