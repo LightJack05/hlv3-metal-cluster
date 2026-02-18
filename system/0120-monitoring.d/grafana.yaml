@@ -19,6 +19,12 @@ spec:
     helm:
       releaseName: grafana
       valuesObject:
+        sidecar:
+          dashboards:
+            enabled: true
+            label: grafana_dashboard
+            labelValue: "1"
+            searchNamespace: ALL # Optional: scans all namespaces for dashboards
         plugins:
           - grafana-metricsdrilldown-app
         replicas: 3
