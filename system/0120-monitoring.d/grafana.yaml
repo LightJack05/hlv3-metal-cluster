@@ -19,6 +19,8 @@ spec:
     helm:
       releaseName: grafana
       valuesObject:
+        plugins:
+          - grafana-metricsdrilldown-app
         replicas: 3
         envFromSecret: loki-credentials
         datasources:
