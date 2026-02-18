@@ -24,6 +24,7 @@ spec:
             deviceFilter: '^sda$'
           dashboard:
             enabled: true
+            ssl: false
         route:
           dashboard:
             parentRefs:
