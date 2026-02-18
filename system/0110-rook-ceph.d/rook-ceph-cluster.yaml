@@ -27,8 +27,10 @@ spec:
             parentRefs:
               - name: internal
                 namespace: kgateway-system
-            hostnames:
-              - "ceph.lightjack.lan"
+            host:
+              name: ceph.lightjack.lan
+              path: '/'
+              pathType: PathPrefix
         cephObjectStores: []
 
   destination:
