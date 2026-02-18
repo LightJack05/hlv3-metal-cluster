@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: system/0050-cert-manager.d/
+    directory:
+      recurse: true
+  - repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    targetRevision: v1.14.1 # Specify the version you want
+    helm:
+      releaseName: cert-manager
+      values: |
+        installCRDs: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true           # Deletes resources that are no longer in the chart
+      selfHeal: true        # Fixes drift automatically
+    syncOptions:
+      - CreateNamespace=true # Creates the namespace if it doesn't exist
+      - ServerSideApply=true
+
