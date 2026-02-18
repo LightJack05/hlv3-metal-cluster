@@ -27,7 +27,7 @@ metadata:
   name: internal
   namespace: kgateway-system
   annotations:
-    cert-manager.io/issuer: lightjack-kuberentes-ca
+    cert-manager.io/issuer: lightjack-kubernetes-ca
 spec:
   gatewayClassName: kgateway-internal
   listeners:
@@ -49,6 +49,7 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: lightjack-lan-tls # Ensure this secret exists in the same namespace
+            kind: secret
   addresses:
     - type: IPAddress
       value: 10.3.0.2
