@@ -20,6 +20,8 @@ spec:
           network:
             encryption:
               enabled: true
+          storage:
+            deviceFilter: '^sda$'
         route:
           dashboard:
             parentRefs:
