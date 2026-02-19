@@ -43,6 +43,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: rook-ceph
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
     automated:
       prune: true
       selfHeal: true
