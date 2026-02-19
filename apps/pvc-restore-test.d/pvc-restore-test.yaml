@@ -41,12 +41,12 @@ spec:
         - containerPort: 80
           name: http
         volumeMounts:
-        - name: localtime
-          mountPath: /etc/localtime
+        - name: pvc-restore-test
+          mountPath: /data
       volumes:
-        - name: localtime
-          hostPath:
-            path: /usr/share/zoneinfo/Asia/Taipei
+      - name: pvc-restore-test
+        persistentVolumeClaim:
+          claimName: pvc-restore-test
 
       restartPolicy: Always
 ---
