@@ -1,0 +1,69 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvc-restore-test
+  namespace: pvc-restore-test
+  labels:
+    app: pvc-restore-test
+spec:
+  selector:
+    matchLabels:
+      app: pvc-restore-test
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container:  pvc-restore-test
+      labels:
+        app: pvc-restore-test
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name: pvc-restore-test
+        image: nginx:alpine-latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+          name: pvc-restore-test
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Taipei
+
+      restartPolicy: Always
+---
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-restore-test
+  namespace: pvc-restore-test
+  labels:
+    app: pvc-restore-test
+spec:
+  storageClassName: ceph-filesystem
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+
