@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: service-monitors
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-900"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
