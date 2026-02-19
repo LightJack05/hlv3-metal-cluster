@@ -60,6 +60,7 @@ metadata:
     app: pvc-restore-test
 spec:
   storageClassName: ceph-filesystem
+  volumeName: pvc-restore-test-db13f808-005c-4103-a2c8-b8420c1f9975
   accessModes:
   - ReadWriteMany
   resources:
