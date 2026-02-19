@@ -28,7 +28,7 @@ spec:
           # - Each init container must complete successfully before the next one starts.
       containers:
       - name: pvc-restore-test
-        image: nginx:alpine-latest
+        image: nginx:alpine
         imagePullPolicy: IfNotPresent
         resources:
           requests:
