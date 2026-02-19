@@ -39,7 +39,7 @@ spec:
             memory: 100Mi
         ports:
         - containerPort: 80
-          name: pvc-restore-test
+          name: http
         volumeMounts:
         - name: localtime
           mountPath: /etc/localtime
