@@ -16,9 +16,11 @@ spec:
     helm:
       releaseName: rook-ceph-cluster
       valuesObject:
+        csi:
+          serviceMonitor:
+            enabled: true
         monitoring:
           enabled: true
-          createPrometheusRules: true
         cephClusterSpec:
           network:
             encryption:
