@@ -14,6 +14,10 @@ spec:
     helm:
       releaseName: rook-ceph-cluster
       valuesObject:
+        cephFileSystemVolumeSnapshotClass:
+          enabled: true
+        cephBlockPoolsVolumeSnapshotClass:
+          enabled: true
         csi:
           serviceMonitor:
             enabled: true
