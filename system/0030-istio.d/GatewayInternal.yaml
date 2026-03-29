@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+  namespace: istio-ingress # Deployed into your ingress namespace
+  annotations:
+    cert-manager.io/cluster-issuer: lightjack-kubernetes-ca
+    # Istio automatically copies this annotation to the generated LoadBalancer Service
+    kube-vip.io/loadbalancerIPs: "10.3.0.2"
+spec:
+  # Use the default Istio GatewayClass
+  gatewayClassName: istio
+  addresses:
+    - type: IPAddress
+      value: 10.3.0.2
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.lightjack.lan"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.lightjack.lan"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lightjack-lan-tls # Ensure this secret exists in istio-ingress
+            kind: Secret
