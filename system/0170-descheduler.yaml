@@ -32,8 +32,6 @@ spec:
                     # Prevents evicting pods with local storage or standard PVCs 
                     # Set to false if you are using shared storage like CephFS/NFS
                     ignorePvcPods: false
-                    metricsUtilization:
-                      source: KubernetesMetrics
                 - name: RemoveDuplicates
                 - name: LowNodeUtilization
                   args:
