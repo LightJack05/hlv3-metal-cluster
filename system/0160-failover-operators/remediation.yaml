@@ -24,7 +24,9 @@ metadata:
   name: cluster-wide-health-check
 spec:
   # An empty selector applies this health check to ALL nodes (control-plane and workers)
-  selector: {}
+  selector: 
+    matchLabels:
+      kubernetes.io/os: linux
   remediationTemplate:
     apiVersion: self-node-remediation.medik8s.io/v1alpha1
     kind: SelfNodeRemediationTemplate
