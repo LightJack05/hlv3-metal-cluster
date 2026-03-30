@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: descheduler
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-600"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/descheduler/
+    chart: descheduler
+    targetRevision: 0.35.0 # Check for the latest version compatible with your K8s version
+    helm:
+      values: |
+        kind: CronJob
+        schedule: "*/5 * * * *"
+        
+        deschedulerPolicy:
+          profiles:
+            - name: rebalance-cluster
+              pluginConfig:
+                - name: DefaultEvictor
+                  args:
+                    # Prevents evicting pods with local storage or standard PVCs 
+                    # Set to false if you are using shared storage like CephFS/NFS
+                    ignorePvcPods: false
+                - name: RemoveDuplicates
+                - name: LowNodeUtilization
+                  args:
+                    thresholds:
+                      cpu: 20
+                      memory: 20
+                      pods: 20
+                    targetThresholds:
+                      cpu: 50
+                      memory: 50
+                      pods: 50
+              plugins:
+                balance:
+                  enabled:
+                    - RemoveDuplicates
+                    - LowNodeUtilization
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - SkipDryRunOnMissingResource=true
+      - ServerSideApply=true
+      - CreateNamespace=true
