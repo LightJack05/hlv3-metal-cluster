@@ -4,7 +4,7 @@ metadata:
   name: istio-base
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-990"
+    argocd.argoproj.io/sync-wave: "-890"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -34,7 +34,7 @@ metadata:
   name: istio-cni
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-980"
+    argocd.argoproj.io/sync-wave: "-880"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -68,7 +68,7 @@ metadata:
   name: istio-istiod
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-970"
+    argocd.argoproj.io/sync-wave: "-870"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -103,7 +103,7 @@ metadata:
   name: istio-ztunnel
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-960"
+    argocd.argoproj.io/sync-wave: "-860"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -134,7 +134,7 @@ metadata:
   name: istio-addons
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-950"
+    argocd.argoproj.io/sync-wave: "-850"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
