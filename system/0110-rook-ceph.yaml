@@ -19,9 +19,6 @@ spec:
     directory:
       recurse: false
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        istio.io/dataplane-mode: ambient
     automated:
       prune: true
       selfHeal: true

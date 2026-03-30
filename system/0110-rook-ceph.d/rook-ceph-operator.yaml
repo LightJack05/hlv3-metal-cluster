@@ -22,6 +22,7 @@ spec:
     managedNamespaceMetadata:
       labels:
         pod-security.kubernetes.io/enforce: privileged
+        istio.io/dataplane-mode: ambient
     automated:
       prune: true
       selfHeal: true

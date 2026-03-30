@@ -96,6 +96,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: grafana-system
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
     automated:
       prune: true
       selfHeal: true
