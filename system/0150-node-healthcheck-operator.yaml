@@ -10,9 +10,36 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/medik8s/node-healthcheck-operator.git'
-    targetRevision: release-0.11 
-    path: config/default
+    repoURL: https://medik8s.github.io/charts
+    chart: node-healthcheck-operator
+    targetRevision: 0.11.0 # Check for the latest version
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nhco-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-out-of-service-remediation
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-700"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://medik8s.github.io/charts
+    chart: node-out-of-service-remediation
+    targetRevision: 0.12.0 # Check for the latest version
   destination:
     server: https://kubernetes.default.svc
     namespace: nhco-system
