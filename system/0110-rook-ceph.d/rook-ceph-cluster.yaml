@@ -19,6 +19,8 @@ spec:
         cephBlockPoolsVolumeSnapshotClass:
           enabled: true
         csi:
+          csiAddons:
+            enabled: true
           serviceMonitor:
             enabled: true
         monitoring:
