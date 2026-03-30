@@ -19,6 +19,9 @@ spec:
     directory:
       recurse: false
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
     automated:
       prune: true
       selfHeal: true
