@@ -22,6 +22,8 @@ spec:
         schedule: "*/5 * * * *"
         
         deschedulerPolicy:
+          metricsProviders:
+          - source: KubernetesMetrics
           profiles:
             - name: rebalance-cluster
               pluginConfig:
