@@ -2,7 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: internal
-  namespace: istio-ingress # Deployed into your ingress namespace
+  namespace: istio-system # Deployed into your ingress namespace
   annotations:
     cert-manager.io/cluster-issuer: lightjack-kubernetes-ca
     # Istio automatically copies this annotation to the generated LoadBalancer Service
