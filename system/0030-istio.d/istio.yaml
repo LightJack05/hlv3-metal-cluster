@@ -142,7 +142,7 @@ spec:
   source:
     repoURL: https://kiali.org/helm-charts
     chart: kiali-server
-    targetRevision: 1.89.0 # Use the version compatible with Istio 1.24
+    targetRevision: 2.24.0 # Use the version compatible with Istio 1.24
     helm:
       valuesObject:
         auth:
