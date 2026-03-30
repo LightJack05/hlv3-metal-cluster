@@ -126,6 +126,49 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-kiali
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-850"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://kiali.org/helm-charts
+    chart: kiali-server
+    targetRevision: 1.89.0 # Use the version compatible with Istio 1.24
+    helm:
+      valuesObject:
+        auth:
+          strategy: anonymous # Keeps it simple for local port-forwarding access
+        external_services:
+          prometheus:
+            # Replace with your actual Prometheus service DNS and port
+            url: "http://prometheus-operated.prometheus-system.svc.cluster.local:9090"
+          grafana:
+            # Replace with your actual Grafana service DNS and port
+            enabled: true
+            in_cluster_url: "http://grafana.grafana-system.svc.cluster.local:80"
+            url: "http://grafana.grafana-system.svc.cluster.local:80" # Used for external links in UI
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
 ---
 
 apiVersion: argoproj.io/v1alpha1
@@ -144,7 +187,7 @@ spec:
     targetRevision: 1.29.1
     path: samples/addons
     directory:
-      include: '{kiali,jaeger}.yaml'
+      include: '{jaeger}.yaml'
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
