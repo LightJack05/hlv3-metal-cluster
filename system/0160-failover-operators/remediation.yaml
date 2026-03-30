@@ -39,8 +39,8 @@ spec:
     # 1. UNREACHABLE STATE: The node is dead/partitioned and the Kubelet cannot reach the API
     - type: Ready
       status: "Unknown"
-      duration: 300s
+      duration: 30s
     # 2. UNHEALTHY STATE: The Kubelet is talking to the API, but reporting internal failures
     - type: Ready
       status: "False"
-      duration: 300s
+      duration: 30s
