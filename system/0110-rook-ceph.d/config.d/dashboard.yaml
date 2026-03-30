@@ -1,0 +1,20 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "rook-ceph-dashboard-password",
+    "namespace": "rook-ceph"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "rook-ceph-dashboard-password",
+        "namespace": "rook-ceph"
+      },
+      "type": "Opaque"
+    },
+    "encryptedData": {
+      "password": "AgCNDg/ffy0XT7BCvcwFSXJOrvUwZHzLRXmqcXSeWsbnhqJZ1xb0yqwpJf7f6l4Cc82f3fs4R5lHJEF0CcS7bEwYuD6f5QkKKUM3V++ZW5gIYSUGIcjXdyyfrUYq+hrlhSbkCWf68+CkORGD9sG9UOY34KX84ZrA0gIKaKga9bM/ABamwX14Fc37HlOUAfEohUaQzoIOggHBTBbAj9JweZ+6x5lLKTpk5dQI3oaEezOl5hRTF0ZHRzprrE/mn2Elss5UvwSVaKjsee1Jvedi4ILOGCMdFQqS/JpIz0pJ0leavDM+l/Peu2dZBFBgL1VMCSxvUfawoBMswdxF4WrVHD1Hob/60OrlduBNqbE5dv84Y7OCxW067gGiNhve00mECLR1EM8InngQWhOvvGPXpeIb+q4dcSbI0UgDZPxft+IlR2D/F4rZCAvqtsGfV38IIIzPg3C3d9KDXZ2LH45I9VbLwGTca2x7KRVcyG+Ct9775vpAhWZfIjMFXKvfrTm6F+PsGhHsgkRBnRkqgac/9iYnOppU+gAHWwZsDGXGkenvWP9pEhQz9cMlAVla3c9NWTGLdH969q/UPkNASzX/dVJrqkO92fVJDm1sHD3l1apl4ZMW4mS0/uI/w7I3/JcA0/NBIZGLDio3jX0b2usVVsKDLSxB2FERM+c/OF7OneajAw8dwr41FXrY6KVqCU8oOUHykePvE/N9k6VUxj4lqOj2jScCfCv8d22AxnkUNMM="
+    }
+  }
+}
