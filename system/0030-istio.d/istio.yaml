@@ -74,6 +74,11 @@ spec:
     chart: istiod
     targetRevision: 1.29.1
     helm:
+      valuesObject:
+        profile: ambient
+        pilot:
+          env:
+            PILOT_ENABLE_AMBIENT: "true"
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
