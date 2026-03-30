@@ -44,6 +44,10 @@ spec:
     chart: cni
     targetRevision: 1.29.1
     helm:
+      valuesObject:
+        profile: ambient
+        ambient:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
