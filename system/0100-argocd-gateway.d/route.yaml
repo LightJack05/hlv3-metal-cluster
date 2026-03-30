@@ -7,7 +7,7 @@ spec:
   parentRefs:
   - kind: Gateway
     name: internal
-    namespace: kgateway-system
+    namespace: istio-system
   hostnames:
   - "argocd.lightjack.lan"
   rules:

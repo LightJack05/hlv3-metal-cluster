@@ -36,7 +36,7 @@ spec:
           dashboard:
             parentRefs:
               - name: internal
-                namespace: kgateway-system
+                namespace: istio-system
             host:
               name: ceph.lightjack.lan
               path: '/'
