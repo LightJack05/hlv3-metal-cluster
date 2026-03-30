@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/medik8s/node-healthcheck-operator.git'
-    targetRevision: main 
+    targetRevision: release-0.11 
     path: config/default
   destination:
     server: https://kubernetes.default.svc
