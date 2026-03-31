@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://argoproj.github.io/argo-helm"
+    chart: argo-cd
+    targetRevision: 9.4.17
+    helm:
+      releaseName: argocd
+      valuesObject:
+        redis-ha:
+          metrics:
+            enabled: true
+          enabled: true
+        dex:
+          metrics:
+            enabled: true
+        controller:
+          metrics:
+            enabled: true
+          replicas: 3
+        repoServer:
+          metrics:
+            enabled: true
+          autoscaling:
+            enabled: true
+            minReplicas: 2
+        applicationSet:
+          metrics:
+            enabled: true
+          replicas: 3
+        global:
+          domain: argocd.lightjack.lan
+        configs:
+          params:
+            server.insecure: true
+        server:
+          metrics:
+            enabled: true
+          autoscaling:
+            enabled: true
+            minReplicas: 2
+          ingress:
+            enabled: false
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
