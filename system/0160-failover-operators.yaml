@@ -16,8 +16,6 @@ spec:
     repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
     targetRevision: main
     path: system/0160-failover-operators/
-    directory:
-      recurse: false
   syncPolicy:
     managedNamespaceMetadata:
       labels:

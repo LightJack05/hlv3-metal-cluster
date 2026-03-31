@@ -14,8 +14,6 @@ spec:
     repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
     targetRevision: main
     path: bootstrap-management/
-    directory:
-      recurse: false
   syncPolicy:
     automated: 
       prune: true
