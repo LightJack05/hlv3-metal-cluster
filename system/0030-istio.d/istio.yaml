@@ -27,6 +27,16 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      # You can also target ValidatingWebhookConfiguration if the diff is there
+      jqPathExpressions:
+        - .webhooks[].failurePolicy
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[].failurePolicy
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -96,6 +106,16 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      # You can also target ValidatingWebhookConfiguration if the diff is there
+      jqPathExpressions:
+        - .webhooks[].failurePolicy
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[].failurePolicy
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
