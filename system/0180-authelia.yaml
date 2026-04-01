@@ -13,6 +13,12 @@ spec:
     namespace: authelia-system
   project: default
   sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      targetRevision: 18.5.0
+      chart: postgresql
+    - repoURL: https://charts.bitnami.com/bitnami
+      targetRevision: 25.3.0
+      chart: redis
     - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
       targetRevision: main
       path: system/0180-authelia.d/
@@ -46,11 +52,17 @@ spec:
                 subdomain: auth
               - domain: lightjack.de
                 subdomain: auth
+              redis:
+                enabled: true
+                host: 'redis'
             access_control:
               default_policy: one_factor
             storage:
               local:
+                enabled: false
+              postgres:
                 enabled: true
+                host: 'postgres'
             notifier:
               filesystem:
                 enabled: true
