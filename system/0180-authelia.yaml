@@ -41,16 +41,18 @@ spec:
                 password:
                   algorithm: argon2id
             session:
+              redis:
+                enabled: true
+                deploy: true
               cookies:
               - domain: lightjack.lan
-                subdomain: auth
               - domain: lightjack.de
-                subdomain: auth
             access_control:
               default_policy: one_factor
             storage:
-              local:
+              postgres:
                 enabled: true
+                deploy: true
             notifier:
               filesystem:
                 enabled: true
