@@ -91,27 +91,26 @@ spec:
       valuesObject:
         meshConfig:
           extensionProviders:
-            - name: authelia
+            - name: 'authelia'
               envoyExtAuthzHttp:
-                service: authelia.authelia-system.svc.cluster.local
+                service: 'authelia.authelia-system.svc.cluster.local'
                 port: 9091
-                pathPrefix: /api/authz/forward-auth/
+                pathPrefix: '/api/authz/ext-authz/'
                 includeRequestHeadersInCheck:
-                  - cookie
-                  - authorization
+                  - 'accept'
+                  - 'cookie'
+                  - 'location'
+                  - 'authorization'
+                  - 'proxy-authorization'
                 headersToUpstreamOnAllow:
-                  - authorization
-                  - proxy-authorization
-                  - remote-*
-                headersToDownstreamOnDeny:
-                  - set-cookie
-                  - location
+                  - 'remote-*'
+                  - 'authelia-*'
                 includeAdditionalHeadersInCheck:
-                  X-Forwarded-Method: "%REQ(:METHOD)%"
-                  X-Forwarded-URI: "%REQ(:PATH)%"
-                  X-Forwarded-Host: "%REQ(Host)%"
-                  X-Forwarded-Proto: "%REQ(:SCHEME)%"
-                  X-Forwarded-For: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+                  X-Forwarded-Proto: '%REQ(:SCHEME)%'
+                headersToDownstreamOnDeny:
+                  - 'set-cookie'
+                headersToDownstreamOnAllow:
+                  - 'set-cookie'
         profile: ambient
         pilot:
           env:
