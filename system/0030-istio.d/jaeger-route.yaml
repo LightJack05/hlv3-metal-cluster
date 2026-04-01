@@ -16,4 +16,4 @@ spec:
         value: /
     backendRefs:
     - name: tracing # Ensure this matches your Jaeger service name
-      port: 16685
+      port: 80
