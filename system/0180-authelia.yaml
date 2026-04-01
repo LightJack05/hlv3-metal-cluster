@@ -21,9 +21,6 @@ spec:
       targetRevision: 0.10.50 # check latest
       helm:
         valuesObject:
-          pod:
-            kind: Deployment
-            replicas: 1
           service:
             port: 9091
           ingress:
@@ -60,6 +57,8 @@ spec:
             totp:
               disable: true
           pod:
+            kind: Deployment
+            replicas: 1
             extraVolumes:
               - name: users-db
                 secret:
