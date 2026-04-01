@@ -18,6 +18,7 @@ spec:
               - "ceph.lightjack.lan"
               - "kiali.lightjack.lan"
               - "jaeger.lightjack.lan"
+              - "hubble.lightjack.lan"
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
