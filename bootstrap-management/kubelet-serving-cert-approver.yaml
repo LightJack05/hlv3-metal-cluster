@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubelet-serving-cert-approver
+  labels:
+    istio.io/dataplane-mode: ambient
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubelet-serving-cert-approver
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1000"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
+    targetRevision: main
+    path: deploy
+    directory:
+      include: 'standalone-install.yaml'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kubelet-serving-cert-approver
+
