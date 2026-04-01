@@ -13,6 +13,7 @@ spec:
       releaseName: cilium
       valuesObject:
         prometheus:
+          enabled: true
           serviceMonitor:
             enabled: true
         operator:
