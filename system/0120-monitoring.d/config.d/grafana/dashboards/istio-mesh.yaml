@@ -184,7 +184,7 @@ data:
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "Loki"
           },
           "description": "",
           "fieldConfig": {
@@ -238,7 +238,7 @@ data:
             {
               "datasource": {
                 "type": "loki",
-                "uid": "${DS_LOKI}"
+                "uid": "Loki"
               },
               "expr": "sum by (status_code) (count_over_time({$label_name=~\"$label_value\", job=~\"$job\", instance=~\"$instance\"} \n| pattern `<_> \"<method> <path> <protocol>\" <status_code> <response_flags> <response_code_details> <connection_termination_details> \"<failure_reason>\" <bytes_received> <bytes_sent> <duration> <upstream_time> \"<forward_for>\" \"<agent>\" \"<req_id>\" \"<authority>\" \"<upstream_host>\" <upstream_cluster> <upstream_local_address> <downstream_local_address> <downstream_remote_address> <requested_server_name> <route_name>`  | __error__=\"\"\n | status_code =~\"0|2..|3..|4..|5..\" \n[$__interval])) ",
               "legendFormat": "{{status_code}}",
@@ -646,7 +646,7 @@ data:
             {
               "datasource": {
                 "type": "loki",
-                "uid": "${DS_LOKI}"
+                "uid": "Loki"
               },
               "expr": "sum(count_over_time(({$label_name=~\"$label_value\", job=~\"$job\", instance=~\"$instance\"} |~ \"Googlebot|Slack.+\")[$__interval])) / (sum(count_over_time(({$label_name=~\"$label_value\", job=~\"$job\", instance=~\"$instance\"} !~ \"Googlebot|Slack.+\")[$__interval])) / 100)",
               "instant": true,
@@ -818,7 +818,7 @@ data:
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "Loki"
           },
           "description": "",
           "fieldConfig": {
@@ -914,7 +914,7 @@ data:
             {
               "datasource": {
                 "type": "loki",
-                "uid": "${DS_LOKI}"
+                "uid": "Loki"
               },
               "expr": "sum by (status_code) (count_over_time({$label_name=~\"$label_value\", job=~\"$job\", instance=~\"$instance\"} \n| pattern `<_> \"<method> <path> <protocol>\" <status_code> <response_flags> <response_code_details> <connection_termination_details> \"<failure_reason>\" <bytes_received> <bytes_sent> <duration> <upstream_time> \"<forward_for>\" \"<agent>\" \"<req_id>\" \"<authority>\" \"<upstream_host>\" <upstream_cluster> <upstream_local_address> <downstream_local_address> <downstream_remote_address> <requested_server_name> <route_name>`  | __error__=\"\"\n | status_code =~\"0|2..|3..|4..|5..\" \n[$__interval])) ",
               "refId": "A"
