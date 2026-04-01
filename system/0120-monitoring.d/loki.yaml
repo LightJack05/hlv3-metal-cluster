@@ -29,8 +29,6 @@ spec:
             httpSnippet: |
               large_client_header_buffers 4 128k;
               client_header_buffer_size 128k;
-              http2_max_field_size 128k;
-              http2_max_headers_size 128k;
           basicAuth:
             enabled: true
             existingSecret: loki-htpasswd-secret
