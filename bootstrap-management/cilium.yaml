@@ -53,7 +53,6 @@ spec:
       prune: true
       selfHeal: true
 ---
-
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -66,6 +65,6 @@ spec:
   hostnames:
     - hubble.lightjack.lan
   rules:
-    backendRefs:
+  - backendRefs:
         - name: hubble-ui
           port: 80
