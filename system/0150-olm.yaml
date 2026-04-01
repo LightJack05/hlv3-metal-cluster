@@ -15,7 +15,7 @@ spec:
     path: system/0150-olm/
   destination:
     server: https://kubernetes.default.svc
-    namespace: olm-system
+    namespace: olm
   syncPolicy:
     managedNamespaceMetadata:
       labels:
