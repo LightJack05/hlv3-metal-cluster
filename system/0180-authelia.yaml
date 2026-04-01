@@ -13,17 +13,6 @@ spec:
     namespace: authelia-system
   project: default
   sources:
-    - repoURL: https://charts.bitnami.com/bitnami
-      targetRevision: 25.3.9
-      chart: redis
-      helm:
-        valuesObject:
-          master:
-            persistence:
-              enabled: false
-          replica:
-            persistence:
-              enabled: false
     - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
       targetRevision: main
       path: system/0180-authelia.d/
@@ -32,6 +21,9 @@ spec:
       targetRevision: 0.10.50 # check latest
       helm:
         valuesObject:
+          pod:
+            kind: 'StatefulSet'
+            replicas: 1
           service:
             port: 9091
           ingress:
@@ -57,17 +49,11 @@ spec:
                 subdomain: auth
               - domain: lightjack.de
                 subdomain: auth
-              redis:
-                enabled: true
-                host: 'authelia-redis-master.authelia-system.svc.cluster.local'
             access_control:
               default_policy: one_factor
             storage:
               local:
-                enabled: false
-              postgres:
                 enabled: true
-                address: 'authelia-postgresql'
             notifier:
               filesystem:
                 enabled: true
