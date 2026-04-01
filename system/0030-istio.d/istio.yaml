@@ -90,6 +90,9 @@ spec:
     helm:
       valuesObject:
         meshConfig:
+          defaultConfig:
+            metricsExporter: PROMETHEUS
+          enablePrometheusMerge: true
           extensionProviders:
             - name: 'authelia'
               envoyExtAuthzHttp:
@@ -115,6 +118,16 @@ spec:
         pilot:
           env:
             PILOT_ENABLE_AMBIENT: "true"
+            PILOT_ENABLE_AMBIENT_CONTROLLERS: "true"
+        telemetry:
+          enabled: true
+          v2:
+            enabled: true
+            prometheus:
+              enabled: true
+              serviceMonitor:
+                enabled: true
+
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
@@ -155,6 +168,9 @@ spec:
     chart: ztunnel
     targetRevision: 1.29.1
     helm:
+      valuesObject:
+        serviceMonitor:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
