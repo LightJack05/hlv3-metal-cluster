@@ -28,8 +28,6 @@ spec:
           configMap:
             theme: dark
             authentication_backend:
-              ldap:
-                enabled: false
               file:
                 enabled: true
                 path: /config/users_database.yml
@@ -43,21 +41,8 @@ spec:
                   authelia_url: https://auth.lightjack.de
             access_control:
               default_policy: one_factor
-            storage:
-              local:
-                enabled: true
-                path: /data/db.sqlite3
-              postgres:
-                enabled: false
-            notifier:
-              filesystem:
-                enabled: true
-                filename: /data/notification.txt
             totp:
               disable: true
-          persistence:
-            enabled: true
-            type: emptyDir
           pod:
             extraVolumes:
               - name: users-db
