@@ -10,7 +10,7 @@ spec:
       name: internal
   action: CUSTOM
   provider:
-    name: authelia-internal
+    name: authelia
   rules:
     - to:
         - operation:
@@ -29,7 +29,7 @@ spec:
       name: internal
   action: CUSTOM
   provider:
-    name: authelia-external
+    name: authelia
   rules:
     - to:
         - operation:
