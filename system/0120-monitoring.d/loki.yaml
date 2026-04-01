@@ -19,7 +19,16 @@ spec:
     helm:
       releaseName: loki
       valuesObject:
+        server:
+          # Increase the max header size (default is usually 8KB)
+          http_server_read_header_timeout: 60s
+          # Depending on version, you may need to increase the general buffer
+          max_header_bytes: 16384
         gateway:
+          nginxConfig:
+            httpSnippet: |
+              large_client_header_buffers 4 32k;
+              client_header_buffer_size 16k;
           basicAuth:
             enabled: true
             existingSecret: loki-htpasswd-secret
