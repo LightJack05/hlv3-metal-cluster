@@ -56,3 +56,10 @@ spec:
     managedNamespaceMetadata:
       labels:
         istio.io/dataplane-mode: ambient
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  labels:
+    istio.io/dataplane-mode: ambient
