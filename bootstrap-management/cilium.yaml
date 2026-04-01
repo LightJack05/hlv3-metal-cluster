@@ -13,10 +13,12 @@ spec:
       releaseName: cilium
       valuesObject:
         prometheus:
-          enabled: true
+          serviceMonitor:
+            enabled: true
         operator:
           prometheus:
-            enabled: true
+            serviceMonitor:
+              enabled: true
         hubble:
           enabled: true
           relay:
