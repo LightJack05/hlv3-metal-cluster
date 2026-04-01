@@ -19,6 +19,22 @@ data:
           "pluginName": "Prometheus"
         }
       ],
+      "templating": {
+        "list": [
+          {
+            "name": "DS_PROMETHEUS",
+            "type": "datasource",
+            "query": "prometheus",
+            "refresh": 1,
+            "hide": 2,
+            "current": {
+              "selected": true,
+              "text": "default",
+              "value": "default"
+            }
+          }
+        ]
+      },
       "__requires": [
         {
           "type": "grafana",

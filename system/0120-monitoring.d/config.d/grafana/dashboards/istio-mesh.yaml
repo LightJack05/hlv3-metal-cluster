@@ -19,6 +19,17 @@ data:
           "pluginName": "Loki"
         }
       ],
+      "templating": {
+        "list": [
+          {
+            "name": "DS_LOKI",
+            "type": "datasource",
+            "query": "loki",
+            "refresh": 1,
+            "hide": 2
+          }
+        ]
+      },
       "__elements": [],
       "__requires": [
         {
