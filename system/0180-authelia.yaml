@@ -13,6 +13,9 @@ spec:
     namespace: authelia-system
   project: default
   sources:
+    - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+      targetRevision: main
+      path: system/0180-authelia.d/
     - repoURL: https://charts.authelia.com
       chart: authelia
       targetRevision: 0.10.50 # check latest
@@ -51,7 +54,7 @@ spec:
                 enabled: true
                 filename: /data/notification.txt
             totp:
-              enabled: false
+              disable: true
           persistence:
             enabled: false
           pod:
