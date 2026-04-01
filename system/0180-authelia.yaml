@@ -67,7 +67,7 @@ spec:
                 subdomain: auth
               redis:
                 enabled: true
-                host: 'redis'
+                host: 'authelia-redis-master'
             access_control:
               default_policy: one_factor
             storage:
@@ -75,7 +75,7 @@ spec:
                 enabled: false
               postgres:
                 enabled: true
-                address: 'postgres'
+                address: 'authelia-postgresql'
             notifier:
               filesystem:
                 enabled: true
