@@ -26,11 +26,6 @@ spec:
           ingress:
             enabled: false
           configMap:
-            server:
-              endpoints:
-                authz:
-                  ext-authz:
-                    implementation: ForwardAuth
             theme: dark
             authentication_backend:
               file:
