@@ -59,7 +59,7 @@ spec:
                 subdomain: auth
               redis:
                 enabled: true
-                host: 'authelia-redis-master'
+                host: 'authelia-redis-master.authelia-system.svc.cluster.local'
             access_control:
               default_policy: one_factor
             storage:
