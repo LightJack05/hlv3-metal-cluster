@@ -27,7 +27,7 @@ spec:
             searchNamespace: ALL # Optional: scans all namespaces for dashboards
         plugins:
           - grafana-metricsdrilldown-app
-        replicas: 3
+        replicas: 1
         envFromSecret: loki-credentials
         datasources:
           datasources.yaml:
