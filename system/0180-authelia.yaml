@@ -62,7 +62,7 @@ spec:
                 enabled: false
               postgres:
                 enabled: true
-                host: 'postgres'
+                address: 'postgres'
             notifier:
               filesystem:
                 enabled: true
