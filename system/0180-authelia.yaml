@@ -41,6 +41,12 @@ spec:
                   authelia_url: https://auth.lightjack.de
             access_control:
               default_policy: one_factor
+            storage:
+              local:
+                enabled: true
+            notifier:
+              filesystem:
+                enabled: true
             totp:
               disable: true
           pod:
