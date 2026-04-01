@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authelia
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-600"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: authelia-system
+  project: default
+  sources:
+    - repoURL: https://charts.authelia.com
+      chart: authelia
+      targetRevision: 0.10.50 # check latest
+      helm:
+        valuesObject:
+          service:
+            port: 9091
+          ingress:
+            enabled: false
+          configMap:
+            theme: dark
+            authentication_backend:
+              ldap:
+                enabled: false
+              file:
+                enabled: true
+                path: /config/users_database.yml
+                password:
+                  algorithm: argon2id
+            session:
+              cookies:
+                - domain: lightjack.lan
+                  authelia_url: https://auth.lightjack.lan
+                - domain: lightjack.de
+                  authelia_url: https://auth.lightjack.de
+            access_control:
+              default_policy: one_factor
+            storage:
+              local:
+                enabled: true
+                path: /data/db.sqlite3
+              postgres:
+                enabled: false
+            notifier:
+              filesystem:
+                enabled: true
+                filename: /data/notification.txt
+            totp:
+              enabled: false
+          persistence:
+            enabled: false
+          pod:
+            extraVolumes:
+              - name: data
+                emptyDir: {}
+              - name: users-db
+                secret:
+                  secretName: authelia-users
+            extraVolumeMounts:
+              - name: users-db
+                mountPath: /config/users_database.yml
+                subPath: users_database.yml
+                readOnly: true
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - SkipDryRunOnMissingResource=true
+      - ServerSideApply=true
+      - CreateNamespace=true

@@ -1,0 +1,37 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: authelia-int-authz
+  namespace: istio-system
+spec:
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: internal
+  action: CUSTOM
+  provider:
+    name: authelia-internal
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - "ceph.lightjack.lan"
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: authelia-ext-authz
+  namespace: istio-system
+spec:
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: internal
+  action: CUSTOM
+  provider:
+    name: authelia-external
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - "foo.lightjack.de"
