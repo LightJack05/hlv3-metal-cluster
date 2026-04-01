@@ -107,11 +107,11 @@ spec:
                   - set-cookie
                   - location
                 includeAdditionalHeadersInCheck:
-                  X-Forwarded-Method: '%REQ(:METHOD)%'
-                  X-Forwarded-URI: '%REQ(:PATH)%'
-                  X-Forwarded-Host: '%REQ(:AUTHORITY)%'
-                  X-Forwarded-Proto: '%REQ(:SCHEME)%'
-                  X-Forwarded-For: '%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%'
+                  X-Forwarded-Method: "%REQ(:METHOD)%"
+                  X-Forwarded-URI: "%REQ(:PATH)%"
+                  X-Forwarded-Host: "%REQ(Host)%"
+                  X-Forwarded-Proto: "%REQ(:SCHEME)%"
+                  X-Forwarded-For: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
         profile: ambient
         pilot:
           env:
@@ -213,7 +213,6 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
 ---
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -230,7 +229,7 @@ spec:
     targetRevision: 1.29.1
     path: samples/addons
     directory:
-      include: '{jaeger}.yaml'
+      include: "{jaeger}.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
