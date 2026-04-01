@@ -51,6 +51,17 @@ spec:
           pattern_ingester:
             enabled: true
           limits_config:
+            max_entries_limit_per_query: 10000 
+  
+            # The maximum number of series a query can touch (Increase this!)
+            max_query_series: 100000
+            
+            # How much memory a single query is allowed to use
+            max_query_lookback: 720h
+            
+            # If you are using a distributed Loki setup:
+            split_queries_by_interval: 15m
+
             allow_structured_metadata: true
             volume_enabled: true
         
