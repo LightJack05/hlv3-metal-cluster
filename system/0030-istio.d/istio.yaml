@@ -105,6 +105,7 @@ spec:
                   - remote-*
                 headersToDownstreamOnDeny:
                   - set-cookie
+                  - location
                 includeAdditionalHeadersInCheck:
                   X-Forwarded-Method: '%REQ(:METHOD)%'
                   X-Forwarded-URI: '%REQ(:PATH)%'
