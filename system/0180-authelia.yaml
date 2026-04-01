@@ -56,11 +56,10 @@ spec:
             totp:
               disable: true
           persistence:
-            enabled: false
+            enabled: true
+            type: emptyDir
           pod:
             extraVolumes:
-              - name: data
-                emptyDir: {}
               - name: users-db
                 secret:
                   secretName: authelia-users
