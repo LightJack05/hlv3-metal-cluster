@@ -189,7 +189,11 @@ spec:
       valuesObject:
         auth:
           strategy: anonymous # Keeps it simple for local port-forwarding access
+        deployment:
+          view_ambient: true
         external_services:
+          istio:
+            ambient_enabled: true
           prometheus:
             # Replace with your actual Prometheus service DNS and port
             url: "http://prometheus-operated.prometheus-system.svc.cluster.local:9090"

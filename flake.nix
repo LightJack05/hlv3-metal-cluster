@@ -29,6 +29,7 @@
             fluxcd
             kubectx
             stern
+            istioctl
           ];
 
         shellHook = ''
