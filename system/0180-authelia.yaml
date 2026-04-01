@@ -35,10 +35,10 @@ spec:
                   algorithm: argon2id
             session:
               cookies:
-                - domain: lightjack.lan
-                  authelia_url: https://auth.lightjack.lan
-                - domain: lightjack.de
-                  authelia_url: https://auth.lightjack.de
+              - domain: lightjack.lan
+                subdomain: auth
+              - domain: lightjack.de
+                subdomain: auth
             access_control:
               default_policy: one_factor
             storage:
