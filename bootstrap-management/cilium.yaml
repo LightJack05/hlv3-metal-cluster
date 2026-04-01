@@ -12,6 +12,11 @@ spec:
     helm:
       releaseName: cilium
       valuesObject:
+        prometheus:
+          enabled: true
+        operator:
+          prometheus:
+            enabled: true
         hubble:
           enabled: true
           relay:
