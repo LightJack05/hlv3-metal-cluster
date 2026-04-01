@@ -18,6 +18,17 @@ spec:
             enabled: true
           ui:
             enabled: true
+          metrics:
+            enabled:
+              - dns
+              - drop
+              - tcp
+              - flow
+              - port-distribution
+              - icmp
+              - httpV2 # This gives you the advanced L7 metrics
+            serviceMonitor:
+              enabled: true
         ipam:
           mode: kubernetes
         kubeProxyReplacement: false
