@@ -22,7 +22,7 @@ spec:
       helm:
         valuesObject:
           pod:
-            kind: 'StatefulSet'
+            kind: Deployment
             replicas: 1
           service:
             port: 9091
