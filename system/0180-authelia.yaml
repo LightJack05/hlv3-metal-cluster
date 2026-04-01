@@ -77,7 +77,7 @@ spec:
         - /spec/rules/0/backendRefs/0/group
         - /spec/rules/0/backendRefs/0/kind
         - /spec/rules/0/backendRefs/0/weight
-        - /spec/rules/0/matches/
+        - /spec/rules/0/matches
         - /spec/rules/0/matches/0
         - /spec/rules/0/matches/0/path
         - /spec/rules/0/matches/0/path/type
