@@ -16,6 +16,8 @@ spec:
         - operation:
             hosts:
               - "ceph.lightjack.lan"
+              - "kiali.lightjack.lan"
+              - "jaeger.lightjack.lan"
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
