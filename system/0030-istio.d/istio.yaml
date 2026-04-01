@@ -95,7 +95,7 @@ spec:
               envoyExtAuthzHttp:
                 service: authelia.authelia-system.svc.cluster.local
                 port: 9091
-                pathPrefix: /api/authz/ext-authz
+                pathPrefix: /api/authz/ext-authz/
                 includeRequestHeadersInCheck:
                   - cookie
                   - authorization
@@ -109,9 +109,9 @@ spec:
                 includeAdditionalHeadersInCheck:
                   X-Forwarded-Method: '%REQ(:METHOD)%'
                   X-Forwarded-URI: '%REQ(:PATH)%'
-                  X-Forwarded-For: '%REQ(X-FORWARDED-FOR)%'
                   X-Forwarded-Host: '%REQ(:AUTHORITY)%'
                   X-Forwarded-Proto: '%REQ(:SCHEME)%'
+                  X-Forwarded-For: '%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%'
         profile: ambient
         pilot:
           env:
