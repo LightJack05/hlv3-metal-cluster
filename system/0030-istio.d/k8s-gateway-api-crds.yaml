@@ -14,7 +14,7 @@ spec:
     # Points to the official v1.2.1 Standard channel
     repoURL: 'https://github.com/kubernetes-sigs/gateway-api.git'
     path: config/crd/standard
-    targetRevision: v1.4.1
+    targetRevision: release-1.5
   destination:
     server: 'https://kubernetes.default.svc'
   syncPolicy:
