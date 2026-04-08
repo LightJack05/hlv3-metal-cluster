@@ -60,6 +60,12 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - SkipDryRunOnMissingResource=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
   ignoreDifferences:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute

@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: cilium
   namespace: argocd
+  annotations:
+        argocd.argoproj.io/reconcile-timeout: "15" 
 spec:
   project: default
   source:

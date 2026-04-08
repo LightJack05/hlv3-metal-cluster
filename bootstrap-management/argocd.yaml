@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: argocd
   namespace: argocd
+  annotations:
+        argocd.argoproj.io/reconcile-timeout: "15" 
 spec:
   project: default
   source:
@@ -53,6 +55,12 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
     managedNamespaceMetadata:
       labels:
         istio.io/dataplane-mode: ambient

@@ -4,6 +4,7 @@ metadata:
   name: rook-ceph-aoa
   namespace: argocd
   annotations:
+    argocd.argoproj.io/reconcile-timeout: "15" 
     argocd.argoproj.io/sync-wave: "-800"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -22,3 +23,9 @@ spec:
       selfHeal: true
     syncOptions:
       - SkipDryRunOnMissingResource=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m

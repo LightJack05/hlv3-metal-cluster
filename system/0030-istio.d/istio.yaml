@@ -27,6 +27,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
   ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
@@ -71,6 +77,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -139,6 +151,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
   ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
@@ -182,6 +200,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -229,6 +253,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -260,3 +290,9 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 50
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
