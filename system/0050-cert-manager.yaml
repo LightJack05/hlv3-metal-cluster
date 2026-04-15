@@ -39,4 +39,10 @@ spec:
     syncOptions:
       - CreateNamespace=true # Creates the namespace if it doesn't exist
       - ServerSideApply=true
+    retry:
+      limit: 10000
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
 

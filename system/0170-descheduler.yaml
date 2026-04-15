@@ -56,6 +56,12 @@ spec:
       - SkipDryRunOnMissingResource=true
       - ServerSideApply=true
       - CreateNamespace=true
+    retry:
+      limit: 10000
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
