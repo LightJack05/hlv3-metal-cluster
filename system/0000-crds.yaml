@@ -17,6 +17,8 @@ spec:
     repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
     targetRevision: main
     path: system/0000-crds.d/
+    directory:
+      recurse: true
   syncPolicy:
     automated: 
       prune: true
