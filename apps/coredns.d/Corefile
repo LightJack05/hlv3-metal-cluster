@@ -1,0 +1,16 @@
+lightjack.lan:53 {
+    errors
+    file /etc/coredns/lightjack.lan.db
+    reload
+}
+
+.:53 {
+    errors
+    health
+    ready
+    forward . 1.1.1.1 8.8.8.8
+    cache 30
+    loop
+    reload
+    loadbalance
+}
