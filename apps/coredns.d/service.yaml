@@ -4,6 +4,7 @@ metadata:
   name: coredns-external
 spec:
   type: LoadBalancer
+  loadBalancerIP: 10.3.0.4
   selector:
     app: coredns
   ports:
