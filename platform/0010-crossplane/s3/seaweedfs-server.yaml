@@ -16,7 +16,7 @@ spec:
     hostnameImmutable: true
     services:
     - s3
-    - s3-control
+    - s3control
     - iam
     - sts
   s3_use_path_style: true
