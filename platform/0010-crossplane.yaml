@@ -9,8 +9,8 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    repoURL: https://charts.crossplane.io/stable
+  sources:
+  - repoURL: https://charts.crossplane.io/stable
     chart: crossplane
     targetRevision: 2.1.3
     helm:
@@ -18,6 +18,11 @@ spec:
         metrics:
           enabled: true
         replicas: 2
+  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: platform/0010-crossplane/
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
