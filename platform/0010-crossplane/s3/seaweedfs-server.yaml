@@ -14,6 +14,11 @@ spec:
       type: Static
       static: http://10.1.0.1:8333
     hostnameImmutable: true
+    services:
+    - s3
+    - s3-control
+    - iam
+    - sts
   s3_use_path_style: true
   skip_credentials_validation: true
   skip_metadata_api_check: true
