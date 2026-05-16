@@ -107,6 +107,9 @@ spec:
         
         backend:
            replicas: 0
+           persistence:
+             labels:
+               velero.io/exclude-from-backup: "true"
         read:
            replicas: 0
         write:
