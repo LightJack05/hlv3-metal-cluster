@@ -1,0 +1,150 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-600"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+  project: default
+  source:
+    repoURL: https://vmware-tanzu.github.io/helm-charts
+    chart: velero
+    targetRevision: 12.0.1
+    helm:
+      valuesObject:
+        # ---- CRDs ----
+        # ArgoCD handles CRDs via the chart's templates; keep this true.
+        # If you ever see "CRD already exists" issues, switch to ServerSideApply=true on the Application.
+        installCRDs: true
+
+        # ---- AWS plugin as init container (CSI plugin is built-in since v1.14) ----
+        initContainers:
+          - name: velero-plugin-for-aws
+            image: velero/velero-plugin-for-aws:v1.13.0
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+
+        # ---- credentials ----
+        # Reference an existing secret you manage out-of-band (SealedSecrets / ESO / SOPS).
+        # The secret must have key "cloud" containing the AWS-style credentials file.
+        credentials:
+          useSecret: true
+          existingSecret: velero-s3-creds
+
+        # ---- core configuration ----
+        configuration:
+          features: EnableCSI
+          uploaderType: kopia
+          # This is THE setting that ships data to S3 instead of leaving it as a Ceph-only snapshot
+          defaultSnapshotMoveData: true
+          defaultVolumesToFsBackup: false
+          # Item operation timeout; bump if you have very large volumes
+          defaultItemOperationTimeout: 8h
+          # If your S3 endpoint is slow/big restore, bump this too
+          resourceTimeout: 8h
+
+          backupStorageLocation:
+            - name: default
+              provider: aws
+              default: true
+              bucket: velero
+              config:
+                region: us-east-1
+                s3ForcePathStyle: "true"
+                s3Url: http://10.1.0.1:8333
+
+          volumeSnapshotLocation:
+            - name: default
+              # provider is "csi" — the CSI driver does the snapshot,
+              # data is then read by Kopia and pushed to the BSL above
+              provider: csi
+              config: {}
+
+        # ---- node agent (required for Kopia data movement) ----
+        deployNodeAgent: true
+        nodeAgent:
+          # Talos uses the standard kubelet paths; explicit for clarity
+          podVolumePath: /var/lib/kubelet/pods
+          pluginVolumePath: /var/lib/kubelet/plugins
+          # Required on Talos for Bidirectional mount propagation used by the data mover
+          privileged: true
+          # Use emptyDir for Kopia scratch space rather than node disk (Talos has minimal writable FS)
+          useScratchEmptyDir: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 2Gi
+          # Optional but recommended for the data-mover ConfigMap (see Rook ROX trick below)
+          # extraArgs:
+          #   - --node-agent-config-map=node-agent-config
+
+        # ---- velero server pod ----
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+
+        # Useful so backup pods can preempt non-critical workloads
+        # priorityClassName: system-cluster-critical
+
+        # ---- metrics ----
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true   # flip to true if you have prometheus-operator
+
+        # ---- extra objects: namespace label for Talos PSA + Rook ROX configmap ----
+        # The chart creates the namespace via CreateNamespace=true, but doesn't label it.
+        # We patch via extraObjects so the privileged PSA is in place.
+        extraObjects:
+          - apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: node-agent-config
+              namespace: velero
+            data:
+              # Tells the data mover to create the intermediate backupPVC as read-only,
+              # which makes Ceph RBD return a linked clone instead of a full clone.
+              # Without this, a 3TB volume requires 3TB of duplication before backup can start.
+              # Replace storageClass names with whatever you have from rook-ceph-cluster.
+              backupPVC: |
+                {
+                  "ceph-block": {
+                    "storageClass": "ceph-block",
+                    "readOnly": true
+                  },
+                  "ceph-filesystem": {
+                    "storageClass": "ceph-filesystem",
+                    "readOnly": true
+                  }
+                }
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+        pod-security.kubernetes.io/enforce: privileged
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - SkipDryRunOnMissingResource=true
+      - ServerSideApply=true
+      - CreateNamespace=true
+    retry:
+      limit: 10000
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
