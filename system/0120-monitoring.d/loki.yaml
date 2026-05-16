@@ -121,6 +121,10 @@ spec:
         # Enable minio for storage
         minio:
           enabled: true
+          persistence:
+             labels:
+               velero.io/exclude-from-backup: "true"
+
 
   destination:
     server: https://kubernetes.default.svc
