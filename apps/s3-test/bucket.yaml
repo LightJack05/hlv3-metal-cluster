@@ -1,7 +1,7 @@
 apiVersion: s3.aws.upbound.io/v1beta1
 kind: Bucket
 metadata:
-  name: test-bucket
+  name: alice-bucket
   namespace: s3-test
 spec:
   forProvider:

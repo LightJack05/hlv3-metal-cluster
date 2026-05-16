@@ -54,6 +54,24 @@ spec:
                 end
               end
               return hs
+            resource.customizations.health.ceph.rook.io_CephCluster: |
+              hs = {}
+              if obj.status ~= nil then
+                if obj.status.ceph ~= nil then
+                  if obj.status.ceph.health == "HEALTH_OK" or obj.status.ceph.health == "HEALTH_WARN" then
+                    hs.status = "Healthy"
+                    hs.message = obj.status.ceph.health
+                    return hs
+                  elseif obj.status.ceph.health == "HEALTH_ERR" then
+                    hs.status = "Degraded"
+                    hs.message = obj.status.ceph.health
+                    return hs
+                  end
+                end
+              end
+              hs.status = "Progressing"
+              hs.message = "Waiting for Ceph Cluster"
+              return hs
         server:
           metrics:
             enabled: true
