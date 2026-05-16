@@ -17,6 +17,9 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: kubelet-serving-cert-approver
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     retry:
       limit: 10000
       backoff:
