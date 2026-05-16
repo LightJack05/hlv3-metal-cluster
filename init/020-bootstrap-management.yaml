@@ -4,7 +4,9 @@ metadata:
   name: bootstrap
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-3000"
+    # NOTE: This app does not install anything, it merely updates manifests of bootstrap components after the cluster is up and running.
+    # Therefore, it needs to run AFTER the other components are pulled in. Otherwise, it will result in a race condition due to service monitor CRDs etc.
+    argocd.argoproj.io/sync-wave: "-300"
 spec:
   destination:
     server: https://kubernetes.default.svc
