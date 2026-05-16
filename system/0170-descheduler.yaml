@@ -19,7 +19,7 @@ spec:
     helm:
       values: |
         kind: CronJob
-        schedule: "*/5 * * * *"
+        schedule: "10 * * * *"
         
         deschedulerPolicy:
           metricsProviders:
@@ -38,11 +38,11 @@ spec:
                     metricsUtilization:
                       source: KubernetesMetrics
                     thresholds:
-                      cpu: 30
-                      memory: 30
+                      cpu: 20
+                      memory: 20
                     targetThresholds:
-                      cpu: 50
-                      memory: 50
+                      cpu: 70
+                      memory: 70
               plugins:
                 balance:
                   enabled:
