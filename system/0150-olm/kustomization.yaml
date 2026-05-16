@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   # Base CRDs
-  - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.28.0/crds.yaml
+  - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.42.0/crds.yaml
   # Core OLM components (Deployments, RBAC, Namespaces)
-  - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.28.0/olm.yaml
+  - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.42.0/olm.yaml
