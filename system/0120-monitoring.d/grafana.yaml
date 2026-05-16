@@ -79,7 +79,7 @@ spec:
             - ReadWriteMany
           size: 10Gi
           disableWarning: false
-          labels:
+          extraPvcLabels:
             velero.io/exclude-from-backup: "true"
         
           ## If persistence is not enabled, this allows to mount the
