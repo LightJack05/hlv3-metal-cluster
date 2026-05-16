@@ -4,7 +4,7 @@ metadata:
   name: authelia
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-600"
+    argocd.argoproj.io/sync-wave: "-800"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
       targetRevision: main
-      path: system/0180-authelia.d/
+      path: system/0140-authelia.d/
     - repoURL: https://charts.authelia.com
       chart: authelia
       targetRevision: 0.10.50 # check latest
