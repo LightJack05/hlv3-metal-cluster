@@ -12,8 +12,11 @@ spec:
     server: https://kubernetes.default.svc
     namespace: velero
   project: default
-  source:
-    repoURL: https://vmware-tanzu.github.io/helm-charts
+  sources:
+  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: system/0180-velero/
+  - repoURL: https://vmware-tanzu.github.io/helm-charts
     chart: velero
     targetRevision: 12.0.1
     helm:
