@@ -1,0 +1,41 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-cluster-backup
+  namespace: velero
+  annotations:
+    argocd.argoproj.io/sync-wave: "-250"
+spec:
+  schedule: "30 * * * *"
+  useOwnerReferencesInBackup: false
+  skipImmediately: false
+  template:
+    ttl: "4320h"   # 30 days
+    snapshotMoveData: true
+    storageLocation: default
+    volumeSnapshotLocations:
+      - default
+
+    includedNamespaces:
+      - "*"
+    excludedNamespaces:
+      - kube-system
+      - kube-public
+      - kube-node-lease
+      - velero
+      - rook-ceph
+      - argocd
+
+    includedResources:
+      - persistentvolumeclaims
+      - persistentvolumes
+      - volumesnapshots.snapshot.storage.k8s.io
+      - volumesnapshotcontents.snapshot.storage.k8s.io
+
+    includeClusterResources: false
+
+    itemOperationTimeout: 4h
+    csiSnapshotTimeout: 30m
+
+    hooks:
+      resources: []

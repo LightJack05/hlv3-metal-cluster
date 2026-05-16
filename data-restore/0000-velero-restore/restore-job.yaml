@@ -1,0 +1,30 @@
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: dr-restore
+  namespace: velero
+  annotations:
+    argocd.argoproj.io/sync-options: Retry=true
+spec:
+  scheduleName: daily-cluster-backup
+
+  includedNamespaces:
+    - "*"
+  excludedNamespaces:
+    - kube-system
+    - kube-public
+    - kube-node-lease
+    - velero
+    - rook-ceph
+    - argocd
+    - loki-system
+    - grafana-system
+
+  includedResources:
+    - persistentvolumeclaims
+    - persistentvolumes
+
+  includeClusterResources: false
+  restorePVs: true
+  existingResourcePolicy: update
+  itemOperationTimeout: 8h
