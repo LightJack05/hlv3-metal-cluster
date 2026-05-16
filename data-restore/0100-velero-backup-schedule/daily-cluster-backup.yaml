@@ -25,6 +25,8 @@ spec:
       - velero
       - rook-ceph
       - argocd
+      - grafana
+      - loki-system
 
     includedResources:
       - persistentvolumeclaims
