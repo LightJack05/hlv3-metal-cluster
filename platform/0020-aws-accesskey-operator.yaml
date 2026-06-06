@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: ghcr.io/lightjack05/charts/
+  - repoURL: ghcr.io/lightjack05/charts
     chart: aws-accesskey-operator
     targetRevision: 0.0.2
   - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
