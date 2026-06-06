@@ -3,8 +3,6 @@ kind: Schedule
 metadata:
   name: daily-cluster-backup
   namespace: velero
-  annotations:
-    argocd.argoproj.io/sync-wave: "-250"
 spec:
   schedule: "30 * * * *"
   useOwnerReferencesInBackup: false
