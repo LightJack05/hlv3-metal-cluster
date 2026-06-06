@@ -4,11 +4,11 @@ metadata:
   name: daily-cluster-backup
   namespace: velero
 spec:
-  schedule: "30 * * * *"
+  schedule: "0 3 * * *"
   useOwnerReferencesInBackup: false
   skipImmediately: false
   template:
-    ttl: "4320h"   # 30 days
+    ttl: "4320h"
     snapshotMoveData: true
     storageLocation: default
     volumeSnapshotLocations:
