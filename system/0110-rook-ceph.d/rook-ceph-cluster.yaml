@@ -151,7 +151,7 @@ spec:
             encryption:
               enabled: true
           storage:
-            deviceFilter: '^sda$'
+            deviceFilter: '^sdb$'
           dashboard:
             enabled: true
             ssl: false
