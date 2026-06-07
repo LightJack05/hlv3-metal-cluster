@@ -36,6 +36,7 @@ spec:
           metadata:
             labels:
               istio.io/dataplane-mode: ambient
+      skipBackgroundRequests: true
 
     # ----------------------------------------------------------------------
     # Rule 2: background reconciliation for EXISTING namespaces.
@@ -72,6 +73,7 @@ spec:
           metadata:
             labels:
               istio.io/dataplane-mode: ambient
+      skipBackgroundRequests: true
 ---
 # ------------------------------------------------------------------------
 # Optional RBAC: grant Kyverno's background controller permission to update
