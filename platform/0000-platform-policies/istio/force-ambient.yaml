@@ -1,0 +1,91 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: force-istio-ambient-mode
+  annotations:
+    policies.kyverno.io/title: Add Istio Ambient Mode to Namespaces
+    policies.kyverno.io/category: Istio
+    policies.kyverno.io/subject: Namespace
+    policies.kyverno.io/description: >-
+      Adds the istio.io/dataplane-mode=ambient label to all namespaces except a
+      defined exclusion list. Rule 1 labels NEW namespaces synchronously at
+      admission time. Rule 2 reconciles EXISTING namespaces, including any that
+      were created while the Kyverno admission controller was unavailable.
+spec:
+  rules:
+    # ----------------------------------------------------------------------
+    # Rule 1: synchronous, admission-time mutation for NEW namespaces.
+    # The label is present the instant the namespace is persisted.
+    # ----------------------------------------------------------------------
+    - name: label-new-namespaces
+      match:
+        any:
+          - resources:
+              kinds: [Namespace]
+      exclude:
+        any:
+          - resources:
+              # For a Namespace object, its own name is matched via `names`.
+              names:
+                - kube-system
+                - kube-public
+                - kube-node-lease
+                - istio-system
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              istio.io/dataplane-mode: ambient
+
+    # ----------------------------------------------------------------------
+    # Rule 2: background reconciliation for EXISTING namespaces.
+    # This is what guarantees the label lands on namespaces that already
+    # existed (or were created while Kyverno was down). It runs in the
+    # background controller, not the admission webhook.
+    # ----------------------------------------------------------------------
+    - name: label-existing-namespaces
+      match:
+        any:
+          - resources:
+              kinds: [Namespace]
+      mutate:
+        # Re-evaluate and sweep ALL matching targets whenever this policy is
+        # created or updated.
+        mutateExistingOnPolicyUpdate: true
+        targets:
+          - apiVersion: v1
+            kind: Namespace
+            # IMPORTANT: targets are selected INDEPENDENTLY of the rule's
+            # match/exclude block. Without this precondition, kube-system,
+            # istio-system, etc. would also get labeled. The exclusion list
+            # must be repeated here.
+            preconditions:
+              all:
+                - key: "{{ target.metadata.name }}"
+                  operator: AnyNotIn
+                  value:
+                    - kube-system
+                    - kube-public
+                    - kube-node-lease
+                    - istio-system
+        patchStrategicMerge:
+          metadata:
+            labels:
+              istio.io/dataplane-mode: ambient
+---
+# ------------------------------------------------------------------------
+# Optional RBAC: grant Kyverno's background controller permission to update
+# namespaces. The background controller does NOT have namespace write access
+# in a default install, so Rule 2 will fail its permission check without this.
+# Apply it alongside the policy (or skip it and watch for a permissions error).
+# ------------------------------------------------------------------------
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kyverno:update-namespaces
+  labels:
+    rbac.kyverno.io/aggregate-to-background-controller: "true"
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list", "watch", "update", "patch"]
