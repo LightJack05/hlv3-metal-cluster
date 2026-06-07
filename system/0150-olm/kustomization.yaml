@@ -6,3 +6,14 @@ resources:
   - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.42.0/crds.yaml
   # Core OLM components (Deployments, RBAC, Namespaces)
   - https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.42.0/olm.yaml
+
+# Strip every NetworkPolicy OLM ships — mesh (ambient/HBONE) handles L4 instead
+patches:
+  - target:
+      kind: NetworkPolicy
+    patch: |
+      apiVersion: networking.k8s.io/v1
+      kind: NetworkPolicy
+      metadata:
+        name: not-used   # ignored; the target selector does the matching
+      $patch: delete
