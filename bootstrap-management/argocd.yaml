@@ -41,6 +41,7 @@ spec:
           params:
             server.insecure: true
           cm:
+            controller.diff.server.side: "true"
             # ----- Restore: gates the -300 sync wave -----
             resource.customizations.health.velero.io_Restore: |
               hs = {}
