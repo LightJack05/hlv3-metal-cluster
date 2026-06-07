@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stakata-reloader
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-600"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stakata-reloader-system
+  project: default
+  sources:
+  - repoURL: https://stakater.github.io/stakater-charts
+    chart: reloader
+    targetRevision: 2.2.12
+    helm:
+      valuesObject:
+        reloader:
+          autoReloadAll: true
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - SkipDryRunOnMissingResource=true
+      - ServerSideApply=true
+      - CreateNamespace=true
+    retry:
+      limit: 10000
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
