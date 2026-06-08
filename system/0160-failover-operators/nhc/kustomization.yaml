@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: medik8s-nhc
+
+resources:
+- git::https://github.com/medik8s/node-healthcheck-operator.git//config/default?ref=v0.11.0
+- certificate.yaml
+
+images:
+- name: quay.io/medik8s/node-healthcheck-operator
+  newName: quay.io/medik8s/node-healthcheck-operator
+  newTag: v0.11.0@sha256:c48e5806711d336ee52d08a2afa46a197ccb347ddb378f2230f640ef95fcb6d8
+
+patches:
+- target:
+    kind: ValidatingWebhookConfiguration
+  patch: |-
+    - op: add
+      path: /metadata/annotations
+      value:
+        cert-manager.io/inject-ca-from: "medik8s-nhc/webhook-serving-cert"
+
+- target:
+    kind: MutatingWebhookConfiguration
+  patch: |-
+    - op: add
+      path: /metadata/annotations
+      value:
+        cert-manager.io/inject-ca-from: "medik8s-nhc/webhook-serving-cert"
