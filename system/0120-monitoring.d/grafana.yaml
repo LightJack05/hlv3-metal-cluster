@@ -20,8 +20,8 @@ spec:
       releaseName: grafana
       valuesObject:
         extraSecretMounts:
-          - name: oidc-secret
-            secretName: grafana-oidc
+          - name: grafana-client-secret
+            secretName: grafana-client-secret
             mountPath: /etc/secrets/oidc
             readOnly: true
             defaultMode: 0440
