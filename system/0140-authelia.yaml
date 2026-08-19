@@ -31,7 +31,8 @@ spec:
             identity_providers:
               oidc:
                 enabled: true
-                hmac_secret: '{{`{{ secret "/secrets/OIDC_HMAC_KEY" }}`}}'
+                hmac_secret: 
+                  secret_name: '{{`{{ secret "/secrets/OIDC_HMAC_KEY" }}`}}'
                 jwks:
                   - key_id: main
                     algorithm: RS256
