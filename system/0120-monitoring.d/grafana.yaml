@@ -36,7 +36,7 @@ spec:
             auto_login: true
             name: Authelia
             client_id: grafana
-            client_secret: $__file{/etc/secrets/grafana-oidc/client_secret}
+            client_secret: $__file{/etc/secrets/oidc/client_secret}
             scopes: openid profile email groups
             auth_url: https://auth.lightjack.lan/api/oidc/authorization
             token_url: https://auth.lightjack.lan/api/oidc/token
