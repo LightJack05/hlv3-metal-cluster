@@ -19,6 +19,12 @@ spec:
     helm:
       releaseName: grafana
       valuesObject:
+        extraSecretMounts:
+          - name: oidc-secret
+            secretName: grafana-oidc
+            mountPath: /etc/secrets/oidc
+            readOnly: true
+            defaultMode: 0440
         grafana.ini:
           server:
             root_url: https://grafana.lightjack.lan
@@ -71,12 +77,6 @@ spec:
               jsonData:
                 timeout: 60
                 maxLines: 1000
-
-
-        admin:
-          existingSecret: grafana-admin-secret
-          userKey: admin-user
-          passwordKey: admin-password
         route:
           main:
             enabled: true
@@ -103,20 +103,8 @@ spec:
           disableWarning: false
           extraPvcLabels:
             velero.io/exclude-from-backup: "true"
-        
-          ## If persistence is not enabled, this allows to mount the
-          ## local storage in-memory to improve performance
-          ##
           inMemory:
             enabled: false
-            ## The maximum usage on memory medium EmptyDir would be
-            ## the minimum value between the SizeLimit specified
-            ## here and the sum of memory limits of all containers in a pod
-            ##
-            # sizeLimit: 300Mi
-        
-          ## If 'lookupVolumeName' is set to true, Helm will attempt to retrieve
-          ## the current value of 'spec.volumeName' and incorporate it into the template.
           lookupVolumeName: true
   destination:
     server: https://kubernetes.default.svc
