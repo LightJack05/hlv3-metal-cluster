@@ -28,9 +28,9 @@ spec:
           secret:
             existingSecret: authelia-secrets
           configMap:
-            
             identity_providers:
               oidc:
+                enabled: true
                 hmac_secret: '{{`{{ secret "/secrets/OIDC_HMAC_KEY" }}`}}'
                 jwks:
                   - key_id: main
