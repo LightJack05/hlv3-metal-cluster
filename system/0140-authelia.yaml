@@ -30,7 +30,7 @@ spec:
           secret:
             existingSecret: 'authelia-secrets'
             additionalSecrets:
-              authelia-client-grafana:
+              grafana-client-digest:
                 path: 'clients/grafana'
           configMap:
             identity_providers:
