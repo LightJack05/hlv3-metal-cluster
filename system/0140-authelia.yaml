@@ -93,15 +93,6 @@ spec:
               - name: users-db
                 secret:
                   secretName: authelia-users
-            extraVolumeMounts:
-              - name: users-db
-                mountPath: /config/users_database.yml
-                subPath: users_database.yml
-                readOnly: true
-            env:
-              - name: X_AUTHELIA_CONFIG_FILTERS
-                value: template
-            extraVolumes:
               - name: oidc-clients
                 projected:
                   defaultMode: 0400
@@ -112,6 +103,10 @@ spec:
             extraVolumeMounts:
               - name: oidc-clients
                 mountPath: /secrets/clients
+                readOnly: true
+              - name: users-db
+                mountPath: /config/users_database.yml
+                subPath: users_database.yml
                 readOnly: true
   syncPolicy:
     managedNamespaceMetadata:
