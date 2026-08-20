@@ -30,6 +30,8 @@ spec:
           secret:
             existingSecret: 'authelia-secrets'
             additionalSecrets:
+              authelia-oidc-jwks:
+                path: 'oidc-jwks'
               grafana-client-digest:
                 path: 'clients/grafana'
           configMap:
@@ -43,7 +45,7 @@ spec:
                     algorithm: 'RS256'
                     use: 'sig'
                     key:
-                      path: '/secrets/internal/identity_providers.oidc.jwks.rsa.pem'
+                      path: '/secrets/oidc-jwks/rsa.pem'
                 claims_policies:
                   default:
                     id_token: ['groups', 'email', 'preferred_username']
