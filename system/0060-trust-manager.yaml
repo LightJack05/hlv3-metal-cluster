@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trust-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-900"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: system/0060-trust-manager.d/
+    directory:
+      recurse: true
+  - repoURL: oci://quay.io/jetstack/charts/trust-manager
+    chart: trust-manager
+    targetRevision: v0.24.0 
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trust-manager
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    automated:
+      prune: true           # Deletes resources that are no longer in the chart
+      selfHeal: true        # Fixes drift automatically
+    syncOptions:
+      - CreateNamespace=true # Creates the namespace if it doesn't exist
+      - ServerSideApply=true
+    retry:
+      limit: 10000
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
+
