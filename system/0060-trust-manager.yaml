@@ -18,6 +18,11 @@ spec:
   - repoURL: oci://quay.io/jetstack/charts/trust-manager
     chart: trust-manager
     targetRevision: v0.24.0 
+    helm:
+      valuesObject:
+        app:
+          trust:
+            namespace: trust-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: trust-manager
