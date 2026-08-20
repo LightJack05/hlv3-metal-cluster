@@ -19,6 +19,11 @@ spec:
     helm:
       releaseName: grafana
       valuesObject:
+        extraConfigmapMounts:
+          - name: root-ca
+            configMap: root-ca
+            mountPath: /etc/ssl/internal
+            readOnly: true
         extraSecretMounts:
           - name: grafana-client-secret
             secretName: grafana-client-secret
@@ -32,6 +37,7 @@ spec:
             disable_login_form: true
             signout_redirect_url: https://auth.lightjack.lan/logout
           auth.generic_oauth:
+            tls_client_ca: /etc/ssl/internal/ca-bundle.crt
             enabled: true
             auto_login: true
             name: Authelia
@@ -112,6 +118,7 @@ spec:
     managedNamespaceMetadata:
       labels:
         istio.io/dataplane-mode: ambient
+        trust: enabled
     automated:
       prune: true
       selfHeal: true
