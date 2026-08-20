@@ -55,7 +55,7 @@ spec:
                     client_secret:
                       path: '/secrets/clients/grafana/digest'
                     public: false
-                    authorization_policy: 'two_factor'
+                    authorization_policy: 'one_factor'
                     claims_policy: 'default'
                     redirect_uris:
                       - 'https://grafana.lightjack.lan/login/generic_oauth'
