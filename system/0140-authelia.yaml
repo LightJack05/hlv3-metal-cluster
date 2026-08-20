@@ -16,6 +16,8 @@ spec:
     - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
       targetRevision: main
       path: system/0140-authelia.d/
+      directory:
+        recurse: true
     - repoURL: https://charts.authelia.com
       chart: authelia
       targetRevision: 0.10.50 # check latest
