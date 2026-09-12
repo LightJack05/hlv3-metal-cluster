@@ -86,16 +86,16 @@ spec:
               local:
                 enabled: true
                 path: '/config/db.sqlite3'
-            persistence:
-              enabled: true
-              storageClass: 'ceph'
-              accessModes: ['ReadWriteOnce']
-              size: '1Gi'
             notifier:
               filesystem:
                 enabled: true
             totp:
               disable: true
+          persistence:
+            enabled: true
+            storageClass: 'ceph'
+            accessModes: ['ReadWriteOnce']
+            size: '1Gi'
           pod:
             kind: Deployment
             replicas: 1
