@@ -12,14 +12,12 @@ spec:
 apiVersion: iam.aws.upbound.io/v1beta1
 kind: User
 metadata:
-  name: cnpg-test
-  namespace: cnpg-test
+  name: bob
 spec:
-  forProvider:
-    forceDestroy: true
-    tags: {}
   providerConfigRef:
     name: seaweedfs
+  forProvider:
+    region: us-east-1
 ---
 apiVersion: aws-accesskey-operator.lightjack.de/v1alpha1
 kind: IAMProviderGrant
