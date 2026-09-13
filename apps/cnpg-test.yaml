@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-test
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-test
+  project: default
+  source:
+    repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: apps/cnpg-test/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - SkipDryRunOnMissingResource=true
+    - CreateNamespace=true
+    - ServerSideApply=true

@@ -1,0 +1,33 @@
+apiVersion: policies.kyverno.io/v1
+kind: MutatingPolicy
+metadata:
+  name: cnpg-velero-exclude
+spec:
+  evaluation:
+    admission:
+      enabled: true
+    mutateExisting:
+      enabled: true
+  matchConstraints:
+    resourceRules:
+      - apiGroups:   ["postgresql.cnpg.io"]
+        apiVersions: ["v1"]
+        resources:   ["clusters"]
+        operations:  ["CREATE", "UPDATE"]
+  matchConditions:
+    - name: not-already-set
+      expression: >-
+        !has(object.spec.inheritedMetadata) ||
+        !has(object.spec.inheritedMetadata.labels) ||
+        !('velero.io/exclude-from-backup' in object.spec.inheritedMetadata.labels)
+  mutations:
+    - patchType: ApplyConfiguration
+      applyConfiguration:
+        expression: >
+          Object{
+            spec: Object.spec{
+              inheritedMetadata: Object.spec.inheritedMetadata{
+                labels: {"velero.io/exclude-from-backup": "true"}
+              }
+            }
+          }
