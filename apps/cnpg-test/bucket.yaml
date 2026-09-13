@@ -17,7 +17,7 @@ metadata:
 spec:
   forProvider:
     forceDestroy: true
-    tags: []
+    tags: {}
   providerConfigRef:
     name: seaweedfs
 ---
