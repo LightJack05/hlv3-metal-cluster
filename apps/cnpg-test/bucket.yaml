@@ -16,8 +16,7 @@ metadata:
 spec:
   providerConfigRef:
     name: seaweedfs
-  forProvider:
-    region: us-east-1
+  forProvider: {}
 ---
 apiVersion: aws-accesskey-operator.lightjack.de/v1alpha1
 kind: IAMProviderGrant
