@@ -1,0 +1,46 @@
+apiVersion: s3.aws.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: cnpg-test-bucket
+  namespace: cnpg-test
+spec:
+  forProvider:
+    region: us-east-1
+  providerConfigRef:
+    name: seaweedfs
+---
+apiVersion: iam.aws.m.upbound.io/v1beta1
+kind: User
+metadata:
+  name: cnpg-test
+  namespace: cnpg-test
+spec:
+  forProvider:
+    region: us-east-1
+  providerConfigRef:
+    name: seaweedfs
+---
+apiVersion: aws-accesskey-operator.lightjack.de/v1alpha1
+kind: IAMProviderGrant
+metadata:
+  name: cnpg-test
+  namespace: cnpg-test
+spec:
+  providerConfigRef:
+    name: seaweedfs
+    namespace: aws-accesskey-operator-system
+  allowedUsernames:
+    - cnpg-test
+---
+apiVersion: aws-accesskey-operator.lightjack.de/v1alpha1
+kind: IAMAccessKey
+metadata:
+  name: cnpg-test
+  namespace: cnpg-test
+spec:
+  providerConfigRef:
+    name: seaweedfs
+    namespace: aws-accesskey-operator-system
+  secretField: creds
+  secretName: cnpg-backup-creds
+  username: cnpg-test
