@@ -14,6 +14,11 @@ spec:
     namespace: kyverno-system
   project: default
   sources:
+  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+    targetRevision: main
+    path: system/0190-kyverno/
+    directory:
+      recurse: true
   - repoURL: https://kyverno.github.io/kyverno
     chart: kyverno
     targetRevision: 3.8.1
