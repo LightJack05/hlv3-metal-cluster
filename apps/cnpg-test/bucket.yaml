@@ -18,6 +18,7 @@ spec:
   forProvider:
     forceDestroy: true
   providerConfigRef:
+    kind: ProviderConfig
     name: seaweedfs
 ---
 apiVersion: aws-accesskey-operator.lightjack.de/v1alpha1
