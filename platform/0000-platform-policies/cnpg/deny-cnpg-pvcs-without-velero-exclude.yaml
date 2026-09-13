@@ -1,0 +1,20 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: cnpg-pvc-velero-exclude-audit
+spec:
+  validationActions: [Audit]
+  matchConstraints:
+    resourceRules:
+      - apiGroups:   [""]
+        apiVersions: ["v1"]
+        resources:   ["persistentvolumeclaims"]
+        operations:  ["CREATE", "UPDATE"]
+  matchConditions:
+    - name: is-cnpg-pvc
+      expression: "has(object.metadata.labels) && 'cnpg.io/pvcRole' in object.metadata.labels"
+  validations:
+    - expression: >-
+        'velero.io/exclude-from-backup' in object.metadata.labels &&
+        object.metadata.labels['velero.io/exclude-from-backup'] == 'true'
+      message: "CNPG PVC missing velero.io/exclude-from-backup=true — check spec.inheritedMetadata on the owning Cluster."
