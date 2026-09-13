@@ -5,9 +5,6 @@ metadata:
   name: test-cluster 
   namespace: cnpg-test
 spec:
-  inheritedMetadata:
-    labels:
-      velero.io/exclude-from-backup: "true"
   instances: 3
   storage:
     size: 5Gi
