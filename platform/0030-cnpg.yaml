@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: cnpg
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-600"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -41,8 +39,6 @@ kind: Application
 metadata:
   name: cnpg-barman
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-600"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
