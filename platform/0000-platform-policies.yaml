@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: https://gitea.lightjack.de/Kubernetes/metal-cluster.git
+  - repoURL: https://github.com/LightJack05/hlv3-metal-cluster.git
     targetRevision: main
     path: platform/0000-platform-policies/
     directory:
